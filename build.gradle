@@ -1,0 +1,58 @@
+apply plugin: 'java'
+apply from:   'wowzalibs.gradle'
+
+group = 'io.r2'
+version = '0.1-WSE4.7.1'
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile ("org.bouncycastle:bcprov-jdk15on:1.54")
+    compile ("log4j:log4j:1.2.17")
+    compile files("$buildDir/generated-classes")
+    compile fileTree(dir: wowzaLibDir, include: "wms-server.jar")
+
+    testCompile( 'org.testng:testng:6.9.12' )
+    testCompile( 'org.assertj:assertj-core:3.5.2' )
+}
+
+test {
+    useTestNG()
+}
+
+jar {
+    dependsOn test
+    from "$buildDir/generated-classes"
+}
+
+defaultTasks 'jar'
+
+// create a clone of CertificateUtils during build time
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.javassist:javassist:3.21.0-GA'
+    }
+}
+
+task cloneCertificateUtils {
+    def outputDir = file("$buildDir/generated-classes")
+    outputs.dir outputDir
+    doFirst {
+        outputDir.exists() || outputDir.mkdirs()
+        javassist.ClassPool classPool = new javassist.ClassPool()
+        configurations.compile.each { f ->  classPool.appendClassPath(f.getCanonicalPath()) }
+        javassist.CtClass c = classPool.get("com.wowza.wms.util.CertificateUtils")
+        c.setName("com.wowza.wms.util.CertificateUtils0")
+        c.writeFile(outputDir.getCanonicalPath())
+    }
+}
+
+compileJava.dependsOn cloneCertificateUtils

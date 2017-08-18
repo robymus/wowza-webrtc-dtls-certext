@@ -1,0 +1,5 @@
+// update this file according to point to your local wowza installation
+
+ext {
+    wowzaLibDir = "C:/app/wowza/Wowza Streaming Engine 4.7.1/lib"
+}
