@@ -22,7 +22,6 @@ public class CheckClassSignatureTest {
                 .collect(Collectors.toSet());
         Set<String> methodList1 = Arrays.stream(CertificateUtils.class.getMethods())
                 .map(m -> m.toString())
-                .sorted()
                 .collect(Collectors.toSet());
         assertEquals(methodList1, methodList0);
     }
