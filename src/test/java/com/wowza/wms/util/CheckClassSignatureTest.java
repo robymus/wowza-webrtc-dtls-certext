@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.testng.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * This test checks if the class signature of CertificateUtils and CertificateUtils0 (original) are the same
@@ -23,6 +23,6 @@ public class CheckClassSignatureTest {
         Set<String> methodList1 = Arrays.stream(CertificateUtils.class.getMethods())
                 .map(m -> m.toString())
                 .collect(Collectors.toSet());
-        assertEquals(methodList1, methodList0);
+        assertThat(methodList1).isEqualTo(methodList0);
     }
 }

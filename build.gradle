@@ -16,8 +16,8 @@ dependencies {
     compile files("$buildDir/generated-classes")
     compile fileTree(dir: wowzaLibDir, include: "wms-server.jar")
 
-    testCompile( 'org.testng:testng:6.9.12' )
-    testCompile( 'org.assertj:assertj-core:3.5.2' )
+    testCompile("org.testng:testng:6.9.12")
+    testCompile("org.assertj:assertj-core:3.5.2")
 }
 
 test {
@@ -29,7 +29,7 @@ jar {
     from "$buildDir/generated-classes"
 }
 
-defaultTasks 'jar'
+defaultTasks "jar"
 
 // create a clone of CertificateUtils during build time
 
@@ -38,7 +38,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'org.javassist:javassist:3.21.0-GA'
+        classpath "org.javassist:javassist:3.21.0-GA"
     }
 }
 
